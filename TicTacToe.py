@@ -337,6 +337,6 @@ def self_play(number_of_games:int):
 
 
 if __name__ == '__main__':
-    Info = play_game(simulations=5000,turns=9)
+    Info = play_game(simulations=6000,turns=9)
     print('########################DATA########################')
     print(Info)
