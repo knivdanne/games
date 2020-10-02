@@ -1,6 +1,5 @@
 import numpy as np
 import math
-
 class TicTacToe:
     def __init__(self,move=None,state=None,to_play = None):
         #print('Starting Game')
@@ -74,14 +73,10 @@ class TicTacToe:
         previous_state = self.state
         self.state[move] = self.to_play
         self.move_taken = move
-        #print(self.state)
         self.game_status()
-        #print('Finished',self.finished)
+        self.to_play = self.to_play*-1
         if self.finished:
-            return#print('Result:',self.result)
-        else:
-            self.to_play = self.to_play*-1
-            #return self.play()
+            return
 
 
 
@@ -263,19 +258,14 @@ def run_shit(root:Node,game:TicTacToe,simulations=1200):
             #print(node)
             #print(node.to_play)
             node.visit_count+=1
-            #If we win then we get a point
-            if fake_game.result=='win' and node.to_play!=fake_game.to_play:
+            if fake_game.result=='win' and node.to_play==-1:
                 node.value_sum+=1
             #in tictactoe draw is pretty much expected so we give half a point to all
             if fake_game.result=='draw':
-                node.value_sum+=1 #in tictactoe draw is pretty much expected
-#                 node.value_sum+=0.5
+                node.value_sum+=0.5
             #If the other one loses then we get an extra point
-            #if fake_game.result=='loss' and node.to_play!=fake_game.to_play:
-                #node.value_sum+=1
-                #print(node.to_play)
-                #print(fake_game.state)
-#                 node.value_sum-=1
+            if fake_game.result=='loss' and node.to_play==1:
+                node.value_sum+=1
 
     actions = []
     values = []
@@ -291,7 +281,7 @@ def run_shit(root:Node,game:TicTacToe,simulations=1200):
 #     return actions[values.index(max(values))],result
     return actions[visits.index(max(visits))],result,visits,nodes
 
-def play_game(turns=2,simulations=5000):
+def play_game(turns=9,simulations=1200):
     game = TicTacToe()
     counter = 0
     History=[]
@@ -337,6 +327,5 @@ def self_play(number_of_games:int):
 
 
 if __name__ == '__main__':
-    Info = play_game(simulations=6000,turns=9)
-    print('########################DATA########################')
-    print(Info)
+    Info = play_game(simulations=1200,turns=9)
+    
